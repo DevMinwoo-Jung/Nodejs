@@ -1,5 +1,5 @@
-// import { add } from './counter';
-// import { getCount } from './counter';
+import { add } from './counter';
+import { getCount } from './counter';
 // 위는 최신 밑은 예전꺼
 const counter = require('./counter');
 

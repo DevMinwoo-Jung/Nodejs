@@ -1,4 +1,5 @@
 const fs = require('fs');
+const readstream = fs.createReadStream('./file.txt');
 
 const writeStream = fs.createReadStream('./file3.txt');
 writeStream.on('finish', () => {

@@ -3,12 +3,32 @@ var path = require('path');
 var filePath = path.join(__dirname, '../test/');
 
 let result = getAllFiles(filePath);
-console.log(result[0]); // IMG_1234.jpg
-console.log(result[0].slice(result[0].indexOf('.') + 1)) // jpg
+
+
 function getAllFiles(path) {
   let file = fs.readdirSync(path);
   return file;
 };
+
+// 파일별로 폴더 만들기
+function getFolders() {
+  let allFIles = getAllFiles(filePath);
+  let folderCategory = new Set();
+  allFIles
+  .map((element) => element.slice(element.indexOf('.') + 1))
+  .map((element) => folderCategory.add(element))
+  return folderCategory;
+}
+
+let folders = getFolders();
+
+console.log(folders);
+
+// folders.map((element) => {
+//   console.log(element);
+// })
+
+// 폴더별로 파일 옮기기
 
 function setFilterFileExtenstion(files, type) {
   let returnArr = [];
@@ -16,4 +36,4 @@ function setFilterFileExtenstion(files, type) {
   returnArr = files.filter((element) => element.slice(element.indexOf('.')+1) === type);
 }
 
-console.log(setFilterFileExtenstion(result, 'png'));
+// console.log(setFilterFileExtenstion(result, 'png'));

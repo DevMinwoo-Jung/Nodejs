@@ -1,4 +1,5 @@
 var fs = require('fs');
+var fsPromise = require('fs').promises; 
 var path = require('path');
 var filePath = path.join(__dirname, '../test/');
 
@@ -20,13 +21,16 @@ function getFolders() {
   return folderCategory;
 }
 
-let folders = getFolders();
+let folders = [...getFolders()];
 
-console.log(folders);
+folders.map((element) => {
+  makeFolder(`${element}`)
+})
 
-// folders.map((element) => {
-//   console.log(element);
-// })
+function makeFolder(category) {
+  fsPromise.mkdir(category)
+  .catch(console.error);
+}
 
 // 폴더별로 파일 옮기기
 

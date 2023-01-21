@@ -23,14 +23,27 @@ function getFolders() {
 
 let folders = [...getFolders()];
 
-folders.map((element) => {
-  makeFolder(`${element}`)
-})
+// folders.map((element) => {
+//   makeFolder(`${element}`)
+// })
+
+// console.log(fs.readdirSync('./'))
 
 function makeFolder(category) {
   fsPromise.mkdir(category)
   .catch(console.error);
 }
+
+function checkFolder(){
+  const folders = fs.readdirSync('./');
+  const filters = ['jpg', 'png', 'mov', 'mp4'];
+  let reuslt = [];
+  folders.map((element) => filters.includes(element) ? reuslt = [...reuslt, element] : null);
+  return reuslt;
+}
+
+// checkFolder();
+console.log(checkFolder())
 
 // 폴더별로 파일 옮기기
 

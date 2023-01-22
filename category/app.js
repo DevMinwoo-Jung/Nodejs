@@ -2,9 +2,11 @@ var fs = require('fs');
 var fsPromise = require('fs').promises; 
 var path = require('path');
 var filePath = path.join(__dirname, '../test/');
+const filters = ['jpg', 'png', 'mov', 'mp4'];
 
 let result = getAllFiles(filePath);
 
+console.log(result);
 
 function getAllFiles(path) {
   let file = fs.readdirSync(path);
@@ -23,12 +25,35 @@ function getFolders() {
 
 let folders = [...getFolders()];
 
-// folders.map((element) => {
-//   makeFolder(`${element}`)
-// })
+folders.map((element) => {
+  if(filters.includes(element)) {
+    makeFolder(`${element}`)
+  }
+})
 
-// console.log(fs.readdirSync('./'))
+// 폴더별로 파일 옮기기
 
+result.map((element) => moveFiles(element));
+
+function moveFiles(file){
+  result.map((element) => {
+    if(filters.includes(element)) {
+      checkExtension(file);
+    } else {
+      fsPromise.rename(filePath, `${__dirname}`)
+    }
+  })
+}
+
+function checkExtension(file){
+  const fileExtension = file.slice(element.indexOf('.') + 1)
+  fsPromise.rename(filePath, `${__dirname}}/${fileExtension}`)
+}
+
+
+
+
+///////
 function makeFolder(category) {
   fsPromise.mkdir(category)
   .catch(console.error);
@@ -36,21 +61,7 @@ function makeFolder(category) {
 
 function checkFolder(){
   const folders = fs.readdirSync('./');
-  const filters = ['jpg', 'png', 'mov', 'mp4'];
   let reuslt = [];
   folders.map((element) => filters.includes(element) ? reuslt = [...reuslt, element] : null);
   return reuslt;
 }
-
-// checkFolder();
-console.log(checkFolder())
-
-// 폴더별로 파일 옮기기
-
-function setFilterFileExtenstion(files, type) {
-  let returnArr = [];
-  console.log(files.filter((element) => element.slice(element.indexOf('.')+1) === type))
-  returnArr = files.filter((element) => element.slice(element.indexOf('.')+1) === type);
-}
-
-// console.log(setFilterFileExtenstion(result, 'png'));

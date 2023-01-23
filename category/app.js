@@ -6,8 +6,6 @@ const filters = ['jpg', 'png', 'mov', 'mp4'];
 
 let result = getAllFiles(filePath);
 
-console.log(result);
-
 function getAllFiles(path) {
   let file = fs.readdirSync(path);
   return file;
@@ -26,42 +24,35 @@ function getFolders() {
 let folders = [...getFolders()];
 
 folders.map((element) => {
-  if(filters.includes(element)) {
-    makeFolder(`${element}`)
+  if(filters.includes(element) && !checkExist(element)) {
+    makeFolder(`${element}`);
   }
 })
 
-// 폴더별로 파일 옮기기
-
-result.map((element) => moveFiles(element));
-
-function moveFiles(file){
-  result.map((element) => {
-    if(filters.includes(element)) {
-      checkExtension(file);
-    } else {
-      fsPromise.rename(filePath, `${__dirname}`)
-    }
-  })
+function checkExist(element){
+  const folders = fs.readdirSync('./');
+  if(folders.includes(element)){
+    return true
+  } else {
+    console.log('이미 있거나 filter에 없슴둥')
+    return false;
+  }
 }
 
-function checkExtension(file){
-  const fileExtension = file.slice(element.indexOf('.') + 1)
-  fsPromise.rename(filePath, `${__dirname}}/${fileExtension}`)
-}
-
-
-
-
-///////
 function makeFolder(category) {
   fsPromise.mkdir(category)
   .catch(console.error);
 }
 
-function checkFolder(){
-  const folders = fs.readdirSync('./');
-  let reuslt = [];
-  folders.map((element) => filters.includes(element) ? reuslt = [...reuslt, element] : null);
-  return reuslt;
+// 폴더별로 파일 옮기기
+
+result.map((element) => moveFiles(element));
+
+async function moveFiles(file){
+    const fileExtension = file.slice(file.indexOf('.') + 1);
+    if(filters.includes(fileExtension)) {
+      fsPromise.copyFile(`${filePath}/${file}`, `${__dirname}/${fileExtension}/${file}`)
+    } else {
+      fsPromise.copyFile(`${filePath}/${file}`, `${__dirname}/${file}`)
+    }
 }

@@ -51,8 +51,8 @@ result.map((element) => moveFiles(element));
 async function moveFiles(file){
     const fileExtension = file.slice(file.indexOf('.') + 1);
     if(filters.includes(fileExtension)) {
-      fsPromise.copyFile(`${filePath}/${file}`, `${__dirname}/${fileExtension}/${file}`)
+      fsPromise.rename(`${filePath}/${file}`, `${__dirname}/${fileExtension}/${file}`)
     } else {
-      fsPromise.copyFile(`${filePath}/${file}`, `${__dirname}/${file}`)
+      fsPromise.rename(`${filePath}/${file}`, `${__dirname}/${file}`)
     }
 }

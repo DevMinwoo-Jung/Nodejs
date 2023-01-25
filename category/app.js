@@ -49,10 +49,12 @@ function makeFolder(category) {
 result.map((element) => moveFiles(element));
 
 async function moveFiles(file){
+  result.map((file) => {
     const fileExtension = file.slice(file.indexOf('.') + 1);
     if(filters.includes(fileExtension)) {
       fsPromise.rename(`${filePath}/${file}`, `${__dirname}/${fileExtension}/${file}`)
     } else {
       fsPromise.rename(`${filePath}/${file}`, `${__dirname}/${file}`)
     }
+  })
 }

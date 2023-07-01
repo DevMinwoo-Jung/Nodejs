@@ -1,0 +1,15 @@
+app.get('/posts', function(req,res,next){
+  res.send(...)
+})
+
+express는 middleware의 chain이다!
+
+use * json (next)
+use * headers (next)
+get / ...
+get /posts
+use (error)
+....
+
+이런걸 연속해서 한다.
+중간에 조건이 맞는게 있으면 return해주고 이 return은 중간에 된다면 뒤에껄로 이어지지 않는다.

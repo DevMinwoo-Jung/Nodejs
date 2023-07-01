@@ -1,0 +1,39 @@
+RESTFUL API??
+
+Representational State Transfer === (나타내는, 대표하는) 상태를 전송!
+-> 그냥 간단히 말하면 소프트웨어 아키텍쳐 스타일인데, 지키면 좋은 표준 가이드!
+
+6가지 조건
+1. 클라이언트와 서버의 아키텍쳐
+2. statelessneess
+3. 캐시가 가능하다면 캐시가 가능하게
+4. Layered System - api하나로 서버 여러곳에서
+5. conde on demand - 클라이언트가 원하는 코드를 서버에서??
+6. uniform interface - 이게 가장 중요
+
+2,3은 http protocol에서 얻을 수 있다??
+
+6의 경우에는
+1. Resource Identification in request -> 서버랑 상관없이 클라이언트에서 사용 할 수 있어야한다
+2. Resource mainipulation through representations? 
+3. Self-descriptive messages -> 서버에서 보내준 데이터를 어떻게 사용할 수 있는지 알아야한다
+4. Hypermedia as the engine of application state 
+
+
+--- APIS 디자인 하는 법들?
+
+crud
+
+read - GET
+create - post
+update - put
+delete  - delete
+
+get - /posts/getPosts - nono
+get - /posts - good
+
+post - /posts/createPost - nono
+post - /posts - good
+
+get /posts/1/tags - nono
+get /posts/?tagsId=1 - good

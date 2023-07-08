@@ -1,6 +1,17 @@
 import express from "express";
 const app = express();
 
+// 이 경로에 한해서만 처리된다
+app.all('/api', (req, res, next)=> {
+  console.log('all');
+  next();
+})
+
+// sky포함해서 어떤 것이 와도 처리됨
+app.use('/sky', (req, res, next)=> {
+  console.log('use');
+  next();
+})
 
 // IP
 // Port
@@ -67,4 +78,15 @@ app.use((error, req, res, next)=> {
   res.status(500).send('관리자에게 문의하십시오');
 })
 
-app.listen(8080);
+app.get('/',
+  (req, res, next) => {
+    console.log(0);
+    if(true) {
+      return res.send('J');
+    }
+    res.send('Minwoo')
+    // send 두번쓰면 에러남
+  }  
+)
+
+// app.listen(8080);

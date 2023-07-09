@@ -1,92 +1,48 @@
 import express from "express";
 const app = express();
 
-// 이 경로에 한해서만 처리된다
-app.all('/api', (req, res, next)=> {
-  console.log('all');
-  next();
+app.use(express.json());
+
+app.post('/', (req, res, next) => {
+  console.log(req.body);
 })
 
-// sky포함해서 어떤 것이 와도 처리됨
-app.use('/sky', (req, res, next)=> {
-  console.log('use');
-  next();
-})
-
-// IP
-// Port
-
-// app.get('/sky/:id', (req, res, next) => {
-//   // console.log(req);
-//   // console.log(req.header);
-//   console.log(req.params);
-//   // { id: 'minwoo' }
-//   // 이렇게 접근 가능
-//   console.log(req.params.id);
-//   console.log(req.query);
-//   //{ keyword: 'roWjsek' }
-//   console.log(req.query.keyword);
-//   res.send('안녕 express!')
-// });
-
-// app.get('/', (req, res, next) => {
-//   console.log('first')
-// });
-
-// app.get('/', (req, res, next) => {
-//   console.log('second')
-// });
-
-// // 위처럼 함녀 first만 나온다
-
-// app.get('/', 
-//   (req, res, next) => {
-//     console.log('first');
-//     next();
-//     // 이걸 하면 밑에를 갔다가
-//   },
-//   (req, res, next) => {
-//     console.log('second');
-//     next();
-//     // 여기서도 이걸 써줘야 끝남
-//   }
-// );
-
-app.get('/', 
-  (req, res, next) => {
-    console.log('first');
-    next('route');
-    // 이걸 하면 밑에를 갔다가
-  },
-  (req, res, next) => {
-    console.log('second');
-    next();
-    // 위에서 route해서 다음꺼 탐
+app.get('/file1', (req, res)=> {
+  try {
+    const data = fs.readFileSync('/file1.txt');
+    res.send(data);
+  } catch (err) {
+    res.sendStatus(404);
   }
-);
-
-app.use((req, res, next) => {
-  res.status(400).send('Not available!')
 })
 
-app.get('/', (req, res, next) => {
-  console.log('thrid')
+app.get('/file2', (req, res) => {
+  fsAsync
+    .readFile('./file2.txt')
+    .then((data) => res.send(data))
+    .catch(error => res.sendStatus(404)); 
 })
 
-app.use((error, req, res, next)=> {
-  console.error(error);
-  res.status(500).send('관리자에게 문의하십시오');
-})
+app.get('/file3', (async (req, res)=> {
+  try {
+    const data = await fsAsync.readFile('/file.txt');
+    res.send(data)
+  } catch (err) {
+    res.sendStatus(404);
+  }
+}))
 
-app.get('/',
-  (req, res, next) => {
-    console.log(0);
-    if(true) {
-      return res.send('J');
+app.get('/file', (req, res) => {
+  fs.readFile('/file1.tx', (err, data) => {
+    if(err) {
+      res.sendStatus(404);
     }
-    res.send('Minwoo')
-    // send 두번쓰면 에러남
-  }  
-)
+  })
+})
 
-// app.listen(8080);
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(500).json({message: '무언가가 잘못됐슈'})
+})
+
+app.listen(8080);

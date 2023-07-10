@@ -3,6 +3,16 @@ const app = express();
 
 app.use(express.json());
 
+app.route('/posts')
+.get((req, res, next)=> {
+  res.status(201.).send('GET: /posts');
+})
+.post((req, res)=> {
+  res.status(201).send('POST: /posts')
+})
+
+// 같은게 반복되면 위처럼 처리 가능!
+
 app.post('/', (req, res, next) => {
   console.log(req.body);
 })
